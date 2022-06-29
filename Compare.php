@@ -121,7 +121,16 @@ class Compare
     /**
      * Brings results to a string.
      */
-    public function toString() {
+    public function toString() : string {
+        $bestSupplier = $this->getBestSupplier();
+        return "{$bestSupplier['name']} is cheaper - {$bestSupplier['totals']} EUR";
+    }
+
+    /**
+     * Gets the best supplier.
+     */
+    public function getBestSupplier() : array
+    {
         $bestSupplier = [];
 
         foreach ($this->getRecords() as $supplier => $record) {
@@ -130,14 +139,12 @@ class Compare
                 continue;
             }
 
-            if (
-                $bestSupplier['totals'] > $record['totals']
-            ) {
+            if ($bestSupplier['totals'] > $record['totals']) {
                 $bestSupplier = $record;
             }
         }
 
-        return "{$bestSupplier['name']} is cheaper - {$bestSupplier['totals']} EUR";
+        return $bestSupplier;
     }
 
     /**
